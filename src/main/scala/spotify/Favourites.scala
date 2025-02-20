@@ -47,8 +47,7 @@ object Favourites {
             .groupBy(col("platform").as("platform"))
             .agg(count("platform").as("times_used"))
             .orderBy(desc("times_used"))
-            .show(10)
-
+        
         spark.stop()
     }
 }
