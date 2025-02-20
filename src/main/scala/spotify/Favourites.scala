@@ -24,7 +24,8 @@ object Favourites {
             .withColumn("skipped", col("skipped").cast("boolean"))
             .as[SpotifyData]
 
-        
+        val outputPath = sys.env("SPOTIFY_OUTPUT_PATH") 
+
         val favouriteTracks = spotifyData.filter(col("skipped") === false)
             .groupBy(col("track_name").as("track"), col("artist_name").as("artist"))
             .agg(count("track_name").as("times_played"))
@@ -48,6 +49,9 @@ object Favourites {
             .agg(count("platform").as("times_used"))
             .orderBy(desc("times_used"))
         
+        println("Writing Favourite platforms to CSV...")
+        favouritePlatforms.write.mode("overwrite").csv(outputPath + "/favourite_platforms.csv")
+
         spark.stop()
     }
 }
