@@ -50,7 +50,7 @@ object Favourites {
             .orderBy(desc("times_used"))
         
         println("Writing Favourite platforms to CSV...")
-        favouritePlatforms.write.mode("overwrite").csv(outputPath + "/favourite_platforms.csv")
+        favouritePlatforms.write.mode("overwrite").option("header", true).csv(outputPath + "/favourite_platforms")
 
         spark.stop()
     }
